@@ -117,14 +117,14 @@ export default class News extends Component {
         }
     }
     async componentDidMount() {
-        let url = "https://newsapi.org/v2/top-headlines?country=us&apiKey=3855bc7ae5a04fc4873e982e743daa87"
+        let url = "https://newsapi.org/v2/top-headlines?country=us&apiKey=Your API KEY"
         let data = await fetch(url)
         let parsedData = await data.json()
         this.setState({
             isLoaded:true,
             articles:parsedData.articles
         });
-        // fetch("https://newsapi.org/v2/top-headlines?country=us&apiKey=3855bc7ae5a04fc4873e982e743daa87")
+        
         //     .then(res => res.json())
         //     .then(
         //         (result) => {
