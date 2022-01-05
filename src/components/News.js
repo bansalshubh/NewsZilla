@@ -111,18 +111,49 @@ export default class News extends Component {
     constructor() {
         super();
         this.state = {
-            articles: this.articles
+            error: null,
+            isLoaded: false,
+            articles: []
         }
     }
+    async componentDidMount() {
+        let url = "https://newsapi.org/v2/top-headlines?country=us&apiKey=3855bc7ae5a04fc4873e982e743daa87"
+        let data = await fetch(url)
+        let parsedData = await data.json()
+        this.setState({
+            isLoaded:true,
+            articles:parsedData.articles
+        });
+        // fetch("https://newsapi.org/v2/top-headlines?country=us&apiKey=3855bc7ae5a04fc4873e982e743daa87")
+        //     .then(res => res.json())
+        //     .then(
+        //         (result) => {
+        //             this.setState({
+        //                 isLoaded: true,
+        //                 items: result.items
+        //             });
+        //         },
+        //         // Note: it's important to handle errors here
+        //         // instead of a catch() block so that we don't swallow
+        //         // exceptions from actual bugs in components.
+        //         (error) => {
+        //             this.setState({
+        //                 isLoaded: true,
+        //                 error
+        //             });
+        //         }
+        //     )
+    }
     render() {
-        const lst = this.articles.map((element) => {
+        let {mode} = this.props
+        const lst = this.state.articles.map((element) => {
             return <div className="col md-3 my-3" key={element.url}>
                 <Newsitem title={element.title} urlImage = {element.urlToImage} description={element.description} urlLink={element.url}/>
             </div>
         });
         return (
             <div className="container">
-                <h1 className='my-2 text-center'>Top Headlines</h1>
+                <h1 className={`my-2 text-center text-${mode==='light'?'dark':'light'}`}>Top Headlines</h1>
                 <div className="row">
                     {lst}
                 </div>
