@@ -2,10 +2,10 @@ import React, { Component } from 'react'
 
 export default class Navbar extends Component {
     render() {
-        let {handleOntoggle,mode} = this.props
+        let { handleOntoggle, mode } = this.props
         return (
             <div>
-                <nav className={`navbar navbar-expand-lg navbar-${mode==='dark'?'dark':'light'} bg-${mode==='dark'?'dark':'light'}`}>
+                <nav className={`navbar navbar-expand-lg navbar-${mode === 'dark' ? 'dark' : 'light'} bg-${mode === 'dark' ? 'dark' : 'light'}`}>
                     <div className="container-fluid">
                         <a className="navbar-brand" href="/">Navbar</a>
                         <button className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
@@ -25,8 +25,8 @@ export default class Navbar extends Component {
                                     <button className="btn btn-primary" type="submit">Search</button>
                             </form> */}
                             <div className="form-check form-switch">
-                                <input className="form-check-input" type="checkbox" onClick={handleOntoggle} role="switch" id="flexSwitchCheckDefault"/>
-                                    <label className={`form-check-label text-${mode==='light'?'dark':'light'}`} htmlFor="flexSwitchCheckDefault">{mode==='dark'?'Enable Light Mode':'Enable Dark Mode'}</label>
+                                <input style={{ "cursor": "pointer" }} className="form-check-input" type="checkbox" onClick={handleOntoggle} role="switch" id="flexSwitchCheckDefault" />
+                                <label className={`form-check-label text-${mode === 'light' ? 'dark' : 'light'}`} htmlFor="flexSwitchCheckDefault">{mode === 'dark' ? 'Enable Light Mode' : 'Enable Dark Mode'}</label>
                             </div>
                         </div>
                     </div>
