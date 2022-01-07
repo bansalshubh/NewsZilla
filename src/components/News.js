@@ -23,7 +23,7 @@ export default class News extends Component {
             articles: parsedData.articles,
             totalPages: Math.ceil(parsedData.totalResults/16)
         });
-        // console.log(this.state.totalPages)
+        console.log(this.state.totalPages)
     }
 
     changePage = async(value) => {
@@ -50,9 +50,9 @@ export default class News extends Component {
                 isLoaded: true,
                 articles: parsedData.articles
             });
-            // console.log(this.state.page)
+            console.log(this.state.page)
         }
-        else if(value === 'next' && this.state.page < this.sttotalPages)
+        else if(value === 'next' && this.state.page < this.state.totalPages)
         {
             // this.setState({
             //     page:this.state.page + 1
