@@ -36,3 +36,13 @@
     transform: rotate(360deg);
   }
 }
+
+/* .myimage{
+  height: 15vw;
+} */
+/* 
+@media (max-width: 1500px) {
+    .myimage { height: 15vw; }
+} */
+
+@import url('https://fonts.googleapis.com/css2?family=Roboto+Slab&display=swap');

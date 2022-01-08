@@ -1,32 +1,48 @@
 import React, { Component } from 'react'
+import { Link } from 'react-router-dom'
+import mylogo from "./mylogo.png"
 
 export default class Navbar extends Component {
     render() {
         let { handleOntoggle, mode } = this.props
         return (
             <div>
-                <nav className={`navbar navbar-expand-lg navbar-${mode === 'dark' ? 'dark' : 'light'} bg-${mode === 'dark' ? 'dark' : 'light'}`}>
+                <nav className={`navbar navbar-expand-lg navbar-${mode === 'dark' ? 'dark' : 'dark'} bg-${mode === 'dark' ? 'dark' : 'primary'}`}>
                     <div className="container-fluid">
-                        <a className="navbar-brand" href="/">Navbar</a>
+                        <a className="navbar-brand" href="/">
+                            <img style={{"marginTop":"3px"}} src={mylogo} alt="" width="24" height="24" className="d-inline-block align-text-top" />
+                            &nbsp;&nbsp;<b>NewsZilla</b>
+                        </a>
                         <button className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                             <span className="navbar-toggler-icon"></span>
                         </button>
                         <div className="collapse navbar-collapse" id="navbarSupportedContent">
                             <ul className="navbar-nav me-auto mb-2 mb-lg-0">
                                 <li className="nav-item">
-                                    <a className="nav-link active" aria-current="page" href="#/">Home</a>
+                                    <Link className="nav-link active" aria-current="page" to="/">Home</Link>
                                 </li>
                                 <li className="nav-item">
-                                    <a className="nav-link active" href="/about">About us</a>
+                                    <Link className="nav-link active" to="/business">Business</Link>
+                                </li>
+                                <li className="nav-item">
+                                    <Link className="nav-link active" to="/entertainment">Entertainment</Link>
+                                </li>
+                                <li className="nav-item">
+                                    <Link className="nav-link active" to="/health">Health</Link>
+                                </li>
+                                <li className="nav-item">
+                                    <Link className="nav-link active" to="/science">Science</Link>
+                                </li>
+                                <li className="nav-item">
+                                    <Link className="nav-link active" to="/sports">Sports</Link>
+                                </li>
+                                <li className="nav-item">
+                                    <Link className="nav-link active" to="/technology">Technology</Link>
                                 </li>
                             </ul>
-                            {/* <form className="d-flex">
-                                <input className="form-control me-2" type="search" placeholder="Search" aria-label="Search"/>
-                                    <button className="btn btn-primary" type="submit">Search</button>
-                            </form> */}
                             <div className="form-check form-switch">
                                 <input style={{ "cursor": "pointer" }} className="form-check-input" type="checkbox" onClick={handleOntoggle} role="switch" id="flexSwitchCheckDefault" />
-                                <label className={`form-check-label text-${mode === 'light' ? 'dark' : 'light'}`} htmlFor="flexSwitchCheckDefault">{mode === 'dark' ? 'Enable Light Mode' : 'Enable Dark Mode'}</label>
+                                <label className={`form-check-label text-${mode === 'light' ? 'light' : 'light'}`} htmlFor="flexSwitchCheckDefault">{mode === 'dark' ? 'Enable Light Mode' : 'Enable Dark Mode'}</label>
                             </div>
                         </div>
                     </div>
