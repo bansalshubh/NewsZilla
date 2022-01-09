@@ -9,6 +9,7 @@ import {
   Routes,
   Route
 } from "react-router-dom";
+import LoadingBar from 'react-top-loading-bar';
 
 export class App extends Component {
 

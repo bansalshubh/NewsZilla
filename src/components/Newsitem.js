@@ -12,7 +12,7 @@ export default class Newsitem extends Component {
                         <p className="card-text">{description}...</p>
                         <div className='d-flex justify-content-between'>
                             <a href={urlLink} rel="noreferrer" target="_blank" style={{ "borderRadius": "15px" }} className="btn btn-sm btn-primary">Read More</a>
-                            <p className='text-primary' style={{ "fontSize": "12px" }}>{new Date().getHours()-new Date(publishedDate).getHours()} hours ago</p>
+                            <p className='text-primary' style={{ "fontSize": "12px" }}>{Math.abs(new Date().getHours()-new Date(publishedDate).getHours())} hours ago</p>
                         </div>
                     </div>
                 </div>
