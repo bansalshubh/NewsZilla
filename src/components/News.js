@@ -33,19 +33,27 @@ export default class News extends Component {
         }
     }
     async componentDidMount() {
-        let url = `https://newsapi.org/v2/top-headlines?country=${this.props.country}&category=${this.props.category}&apiKey=c0cca336a7224a6ea97984b0d6f8493e&page=${this.state.page}&pageSize=${this.props.pageSize}`
+        let url = `https://newsapi.org/v2/top-headlines?country=${this.props.country}&category=${this.props.category}&apiKey=${this.props.api_key}&page=${this.state.page}&pageSize=${this.props.pageSize}`
+        this.props.SetState(10)
         let data = await fetch(url)
+        this.setState({
+            isLoaded:true
+        })
+        this.props.SetState(50)
         let parsedData = await data.json()
+        // this.props.SetState(80)
         this.setState({
             isLoaded: false,
             articles: parsedData.articles,
             totalPages: Math.ceil(parsedData.totalResults / this.props.pageSize),
             totalResults:parsedData.totalResults
         });
+        this.props.SetState(100)
     }
 
     fetchMoreData = async()=>{
-        let url = `https://newsapi.org/v2/top-headlines?country=${this.props.country}&category=${this.props.category}&apiKey=c0cca336a7224a6ea97984b0d6f8493e&page=${this.state.page+1}&pageSize=${this.props.pageSize}`
+        console.log(this.props.api_key)
+        let url = `https://newsapi.org/v2/top-headlines?country=${this.props.country}&category=${this.props.category}&apiKey=${this.props.api_key}&page=${this.state.page+1}&pageSize=${this.props.pageSize}`
         this.setState({
             isLoaded: true
         })
@@ -58,59 +66,13 @@ export default class News extends Component {
         })
     }
 
-    changePage = async (value) => {
-        this.setState({
-            isLoaded: true
-        })
-        if (value === 'one') {
-            let url = `https://newsapi.org/v2/top-headlines?country=${this.props.country}&category=${this.props.category}&apiKey=c0cca336a7224a6ea97984b0d6f8493e&page=1&pageSize=${this.props.pageSize}`
-            let data = await fetch(url)
-            let parsedData = await data.json()
-            this.setState({
-                page: 1,
-                isLoaded: false,
-                articles: parsedData.articles
-            });
-        }
-        else if (value === 'two') {
-            let url = `https://newsapi.org/v2/top-headlines?country=${this.props.country}&category=${this.props.category}&apiKey=c0cca336a7224a6ea97984b0d6f8493e&page=2&pageSize=${this.props.pageSize}`
-            let data = await fetch(url)
-            let parsedData = await data.json()
-            this.setState({
-                page: 2,
-                isLoaded: false,
-                articles: parsedData.articles
-            });
-            console.log(this.state.page)
-        }
-        else if (value === 'next' && this.state.page < this.state.totalPages) {
-            let url = `https://newsapi.org/v2/top-headlines?country=${this.props.country}&category=${this.props.category}&apiKey=c0cca336a7224a6ea97984b0d6f8493e&page=${this.state.page + 1}&pageSize=${this.props.pageSize}`
-            let data = await fetch(url)
-            let parsedData = await data.json()
-            this.setState({
-                page: this.state.page + 1,
-                isLoaded: false,
-                articles: parsedData.articles
-            });
-        }
-        else if (value === "previous") {
-            let url = `https://newsapi.org/v2/top-headlines?country=${this.props.country}&category=${this.props.category}&apiKey=c0cca336a7224a6ea97984b0d6f8493e&page=${this.state.page - 1}&pageSize=${this.props.pageSize}`
-            let data = await fetch(url)
-            let parsedData = await data.json()
-            this.setState({
-                page: this.state.page - 1,
-                isLoaded: false,
-                articles: parsedData.articles
-            });
-        }
-    }
 
     render() {
         let { mode } = this.props
         return (
             <div className="container">
                 <h1 className={`my-3 text-center text-${mode === 'light' ? 'dark' : 'light'}`}>TOP HEADLINES</h1>
-                {this.state.isLoaded && <Spinner/>}
+                {/* {this.state.isLoaded && <Spinner/>} */}
                 <InfiniteScroll
                     dataLength={this.state.articles.length}
                     next={this.fetchMoreData}
@@ -127,14 +89,6 @@ export default class News extends Component {
                 </div>
                 </div>
                 </InfiniteScroll>
-                {/* <nav className="d-flex justify-content-center my-3" aria-label="Page navigation example">
-                    <ul className="pagination">
-                        <li className="page-item"><button disabled={this.state.page <= 1} onClick={() => this.changePage("previous")} style={{ "backgroundColor": mode === 'light' ? 'black' : 'white' }} className="page-link">Previous</button></li>
-                        <li className="page-item"><button onClick={() => this.changePage("one")} style={{ "backgroundColor": mode === 'light' ? 'black' : 'white' }} className="page-link">1</button></li>
-                        <li className="page-item"><button onClick={() => this.changePage("two")} style={{ "backgroundColor": mode === 'light' ? 'black' : 'white' }} className="page-link">2</button></li>
-                        <li className="page-item"><button onClick={() => this.changePage("next")} style={{ "backgroundColor": mode === 'light' ? 'black' : 'white' }} className="page-link">Next</button></li>
-                    </ul>
-                </nav> */}
             </div>
         )
     }

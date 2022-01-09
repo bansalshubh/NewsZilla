@@ -13,12 +13,22 @@ import LoadingBar from 'react-top-loading-bar';
 
 export class App extends Component {
 
+  api_key = process.env.REACT_APP_API_KEY
+
   constructor() {
     super();
     this.state = {
-      mode: "light"
+      mode: "light",
+      progress : 10
     }
   }
+
+  SetState = (progress)=>{
+    this.setState({
+      progress : progress
+    });
+  }
+
   toggleButton = () => {
     if (this.state.mode === 'light') {
       this.setState({
@@ -39,28 +49,33 @@ export class App extends Component {
       <Router>
         <ErrorBoundary>
           <Navbar mode={this.state.mode} handleOntoggle={this.toggleButton} />
+          <LoadingBar
+            color='#f11946'
+            progress={this.state.progress}
+            height={2.5}
+          />
         </ErrorBoundary>
         <Routes>
           <Route exact path="/" element={
-            <News key="general" mode={this.state.mode} pageSize={6} country="in" category="general" />}>
+            <News SetState = {this.SetState} api_key={this.api_key} key="general" mode={this.state.mode} pageSize={6} country="in" category="general" />}>
           </Route>
           <Route exact path="/sports" element={
-            <News key = "sports" mode={this.state.mode} pageSize={6} country="in" category="sports" />}>
+            <News SetState = {this.SetState} api_key={this.api_key} key="sports" mode={this.state.mode} pageSize={6} country="in" category="sports" />}>
           </Route>
           <Route exact path="/entertainment" element={
-            <News key = "entertainment" mode={this.state.mode} pageSize={6} country="in" category="entertainment" />}>
+            <News SetState = {this.SetState} api_key={this.api_key} key="entertainment" mode={this.state.mode} pageSize={6} country="in" category="entertainment" />}>
           </Route>
           <Route exact path="/business" element={
-            <News key = "business" mode={this.state.mode} pageSize={6} country="in" category="business" />}>
+            <News SetState = {this.SetState} api_key={this.api_key} key="business" mode={this.state.mode} pageSize={6} country="in" category="business" />}>
           </Route>
           <Route exact path="/technology" element={
-            <News key = "technology" mode={this.state.mode} pageSize={6} country="in" category="technology" />}>
+            <News SetState = {this.SetState} api_key={this.api_key} key="technology" mode={this.state.mode} pageSize={6} country="in" category="technology" />}>
           </Route>
           <Route exact path="/health" element={
-            <News key = "health" mode={this.state.mode} pageSize={6} country="in" category="health" />}>
+            <News SetState = {this.SetState} api_key={this.api_key} key="health" mode={this.state.mode} pageSize={6} country="in" category="health" />}>
           </Route>
           <Route exact path="/science" element={
-            <News key = "science" mode={this.state.mode} pageSize={6} country="in" category="science" />}>
+            <News SetState = {this.SetState} api_key={this.api_key} key="science" mode={this.state.mode} pageSize={6} country="in" category="science" />}>
           </Route>
         </Routes>
       </Router>
