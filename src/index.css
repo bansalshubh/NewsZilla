@@ -1,0 +1,13 @@
+@media screen and (max-width: 767px) {
+    .mobile-space {margin-top:12vw;}
+    }
+
+    @media screen and (max-width: 420px) {
+        .mobile-space {margin-top:20vw;}
+        }
+
+    @media screen and (min-width: 767px) {
+        .mobile-space {margin-top:6.5vw;margin-bottom: 1.8vw;}
+        }
+
+        

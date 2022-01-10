@@ -1,13 +1,11 @@
-import React, { Component } from 'react'
+import React from 'react'
 import { Link } from 'react-router-dom'
 import mylogo from "./mylogo.png"
 
-export default class Navbar extends Component {
-    render() {
-        let { handleOntoggle, mode } = this.props
+export default function Navbar(props) {
         return (
             <div>
-                <nav className={`navbar navbar-expand-lg navbar-${mode === 'dark' ? 'dark' : 'dark'} bg-${mode === 'dark' ? 'dark' : 'primary'}`}>
+                <nav className={`navbar fixed-top navbar-expand-lg navbar-${props.mode === 'dark' ? 'dark' : 'dark'} bg-${props.mode === 'dark' ? 'dark' : 'primary'}`}>
                     <div className="container-fluid">
                         <a className="navbar-brand" href="/">
                             <img style={{"marginTop":"3px"}} src={mylogo} alt="" width="24" height="24" className="d-inline-block align-text-top" />
@@ -41,13 +39,12 @@ export default class Navbar extends Component {
                                 </li>
                             </ul>
                             <div className="form-check form-switch">
-                                <input style={{ "cursor": "pointer" }} className="form-check-input" type="checkbox" onClick={handleOntoggle} role="switch" id="flexSwitchCheckDefault" />
-                                <label className={`form-check-label text-${mode === 'light' ? 'light' : 'light'}`} htmlFor="flexSwitchCheckDefault">{mode === 'dark' ? 'Enable Light Mode' : 'Enable Dark Mode'}</label>
+                                <input style={{ "cursor": "pointer" }} className="form-check-input" type="checkbox" onClick={props.handleOntoggle} role="switch" id="flexSwitchCheckDefault" />
+                                <label className={`form-check-label text-${props.mode === 'light' ? 'light' : 'light'}`} htmlFor="flexSwitchCheckDefault">{props.mode === 'dark' ? 'Enable Light Mode' : 'Enable Dark Mode'}</label>
                             </div>
                         </div>
                     </div>
                 </nav>
             </div>
         )
-    }
 }

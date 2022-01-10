@@ -1,95 +1,82 @@
-import React, { Component } from 'react'
+import React, { useState, useEffect } from 'react'
 import Newsitem from './Newsitem'
 import Spinner from './Spinner';
 import PropTypes from 'prop-types'
 import InfiniteScroll from "react-infinite-scroll-component";
 
 
-export default class News extends Component {
+export default function News(props) {
 
-    static defaultProps = {
-        pageSize: 6,
-        mode: 'light',
-        country: 'in',
-        category: "general"
-    }
+    const [articles, setArticles] = useState([])
+    const [page, setPage] = useState(1)
+    const [totalPages, setTotalPages] = useState(0)
+    const [totalResults, setTotalResults] = useState(0)
+    const [isLoaded, setIsLoaded] = useState(true)
+    const [error, setError] = useState(null)
 
-    static propTypes = {
-        pageSize: PropTypes.number,
-        mode: PropTypes.string,
-        country: PropTypes.string,
-        category: PropTypes.string
-    }
-
-    constructor() {
-        super();
-        this.state = {
-            error: null,
-            isLoaded: true,
-            articles: [],
-            page: 1,
-            totalPages: 0,
-            totalResults:0
+    useEffect(() => {
+        async function fetchData() {
+            let url = `https://newsapi.org/v2/top-headlines?country=${props.country}&category=${props.category}&apiKey=${props.api_key}&page=${page}&pageSize=${props.pageSize}`
+            props.SetState(30)
+            setIsLoaded(true)
+            let data = await fetch(url)
+            props.SetState(50)
+            let parsedData = await data.json()
+            // props.SetState(80)
+            setIsLoaded(false)
+            setArticles(parsedData.articles)
+            setTotalPages(Math.ceil(parsedData.totalResults / props.pageSize))
+            setTotalResults(parsedData.totalResults)
+            props.SetState(100)
         }
-    }
-    async componentDidMount() {
-        let url = `https://newsapi.org/v2/top-headlines?country=${this.props.country}&category=${this.props.category}&apiKey=${this.props.api_key}&page=${this.state.page}&pageSize=${this.props.pageSize}`
-        this.props.SetState(10)
-        let data = await fetch(url)
-        this.setState({
-            isLoaded:true
-        })
-        this.props.SetState(50)
-        let parsedData = await data.json()
-        // this.props.SetState(80)
-        this.setState({
-            isLoaded: false,
-            articles: parsedData.articles,
-            totalPages: Math.ceil(parsedData.totalResults / this.props.pageSize),
-            totalResults:parsedData.totalResults
-        });
-        this.props.SetState(100)
-    }
+        fetchData();
+    }, [])
 
-    fetchMoreData = async()=>{
-        console.log(this.props.api_key)
-        let url = `https://newsapi.org/v2/top-headlines?country=${this.props.country}&category=${this.props.category}&apiKey=${this.props.api_key}&page=${this.state.page+1}&pageSize=${this.props.pageSize}`
-        this.setState({
-            isLoaded: true
-        })
+    const fetchMoreData = async () => {
+        let url = `https://newsapi.org/v2/top-headlines?country=${props.country}&category=${props.category}&apiKey=${props.api_key}&page=${page + 1}&pageSize=${props.pageSize}`
+        setIsLoaded(true)
         let data = await fetch(url)
         let parsedData = await data.json()
-        this.setState({
-            page : this.state.page + 1,
-            isLoaded : false,
-            articles : this.state.articles.concat(parsedData.articles)
-        })
+        setArticles(articles.concat(parsedData.articles))
+        setIsLoaded(false)
+        setPage(page + 1)
     }
 
-
-    render() {
-        let { mode } = this.props
-        return (
-            <div className="container">
-                <h1 className={`my-3 text-center text-${mode === 'light' ? 'dark' : 'light'}`}>TOP HEADLINES</h1>
-                {/* {this.state.isLoaded && <Spinner/>} */}
-                <InfiniteScroll
-                    dataLength={this.state.articles.length}
-                    next={this.fetchMoreData}
-                    hasMore={this.state.articles.length !== this.state.totalResults}
-                    loader={<Spinner/>}
-                >
+    let { mode } = props
+    return (
+        <div className="container">
+            <h1 className={`mobile-space text-center text-${mode === 'light' ? 'dark' : 'light'}`}>{props.category.toUpperCase()} TOP HEADLINES</h1>
+            {/* {this.state.isLoaded && <Spinner/>} */}
+            <InfiniteScroll
+                dataLength={articles.length}
+                next={fetchMoreData}
+                hasMore={articles.length !== totalResults}
+                loader={<Spinner />}
+            >
                 <div className="container">
-                <div className="row">
-                    {this.state.articles.map((element) => {
-                        return <div className="col-md-3 my-3" key={element.url}>
-                            {<Newsitem mode={mode} publishedDate={element.publishedAt} title={element.title} urlImage={element.urlToImage} description={element.description} urlLink={element.url} />}
-                        </div>
-                    })}
+                    <div className="row">
+                        {articles.map((element) => {
+                            return <div className="col-md-3 my-3" key={element.url}>
+                                {<Newsitem mode={mode} publishedDate={element.publishedAt==null?"":element.publishedAt} title={element.title} urlImage={element.urlToImage} description={element.description} urlLink={element.url} />}
+                            </div>
+                        })}
+                    </div>
                 </div>
-                </div>
-                </InfiniteScroll>
-            </div>
-        )
-    }
+            </InfiniteScroll>
+        </div>
+    )
+}
+
+News.defaultProps = {
+    pageSize: 6,
+    mode: 'light',
+    country: 'in',
+    category: "general"
+}
+
+News.propTypes = {
+    pageSize: PropTypes.number,
+    mode: PropTypes.string,
+    country: PropTypes.string,
+    category: PropTypes.string
 }
